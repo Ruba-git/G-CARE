@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join G care as a Service Member</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">G <span>care</span></div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html">Sign Up</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="service-request-page">
+        <section class="service-request-hero">
+            <div class="service-request-copy">
+                <span class="badge">Join Our Premium Team</span>
+                <h1>Apply as a Trusted Service Member</h1>
+                <p>Share your details, experience, and preferred service. Our admin team will review your application and connect you with customers.</p>
+            </div>
+            <div class="service-request-card">
+                <h2>Member Application</h2>
+                <form id="memberRequestForm" class="request-form">
+                    <div class="form-group">
+                        <label for="requestName">Full Name</label>
+                        <input type="text" id="requestName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="requestEmail">Email Address</label>
+                        <input type="email" id="requestEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="requestPhone">Phone Number</label>
+                        <input type="tel" id="requestPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="requestExperience">Years of Experience</label>
+                        <input type="number" id="requestExperience" min="0" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="requestService">Service Interested In</label>
+                        <select id="requestService" required>
+                            <option value="">Loading services...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="requestMessage">Tell Us About You</label>
+                        <textarea id="requestMessage" rows="4" placeholder="Share your strengths and availability."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary btn-full">Submit Application</button>
+                    <p id="requestStatus" class="request-status"></p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        async function fetchServices() {
+            const serviceSelect = document.getElementById('requestService');
+            try {
+                const response = await fetch('/api/admin/services');
+                const services = await response.json();
+                serviceSelect.innerHTML = '<option value="">Select a service</option>';
+                services.filter(s => s.is_active).forEach(service => {
+                    const option = document.createElement('option');
+                    option.value = service.name;
+                    option.textContent = service.name;
+                    serviceSelect.appendChild(option);
+                });
+                if (serviceSelect.options.length === 1) {
+                    serviceSelect.innerHTML = '<option value="">No active services available</option>';
+                }
+            } catch (error) {
+                serviceSelect.innerHTML = '<option value="">Unable to load services</option>';
+                console.error(error);
+            }
+        }
+
+        document.getElementById('memberRequestForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const statusText = document.getElementById('requestStatus');
+            statusText.textContent = '';
+            const data = {
+                name: document.getElementById('requestName').value.trim(),
+                email: document.getElementById('requestEmail').value.trim(),
+                phone: document.getElementById('requestPhone').value.trim(),
+                years_experience: parseInt(document.getElementById('requestExperience').value, 10),
+                service_name: document.getElementById('requestService').value,
+                message: document.getElementById('requestMessage').value.trim()
+            };
+
+            try {
+                const response = await fetch('/api/service-member-requests', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (!response.ok) throw new Error(result.message || 'Submission failed');
+                statusText.textContent = 'Your application was submitted successfully. We will contact you soon.';
+                statusText.className = 'request-status success';
+                document.getElementById('memberRequestForm').reset();
+            } catch (error) {
+                statusText.textContent = error.message || 'Unable to submit application.';
+                statusText.className = 'request-status error';
+            }
+        });
+
+        fetchServices();
+    </script>
+</body>
+</html>

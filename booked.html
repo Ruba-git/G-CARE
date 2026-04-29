@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed | G care</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="booked-body">
+    <main class="booked-page">
+        <div class="booked-card">
+            <span class="booked-badge">Booking Confirmed</span>
+            <h1>Your booking is ready!</h1>
+            <p class="booked-subtitle">Choose how you'd like to pay for the service.</p>
+
+            <section class="booked-summary" id="bookedSummary"></section>
+
+            <div class="booked-actions">
+                <button id="onlinePaymentBtn" class="btn-primary btn-full">Online Payment</button>
+                <button id="codPaymentBtn" class="btn-secondary btn-full">Cash on Delivery</button>
+            </div>
+
+            <div id="bookedNotice" class="booked-notice"></div>
+
+            <button id="backHomeBtn" class="btn-secondary btn-full">Back to Home</button>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        const pending = JSON.parse(localStorage.getItem('smartCarePendingBooking') || 'null');
+        const summaryEl = document.getElementById('bookedSummary');
+        const noticeEl = document.getElementById('bookedNotice');
+        const onlineBtn = document.getElementById('onlinePaymentBtn');
+        const codBtn = document.getElementById('codPaymentBtn');
+        const backHomeBtn = document.getElementById('backHomeBtn');
+
+        function formatList(items) {
+            if (!items) return 'N/A';
+            return Array.isArray(items) ? items.join(', ') : items;
+        }
+
+        function clearPending() {
+            localStorage.removeItem('smartCarePendingBooking');
+        }
+
+        if (!pending) {
+            summaryEl.innerHTML = '<p class="empty-booking">No booking was found. Please return to the home page and create a new booking.</p>';
+            onlineBtn.disabled = true;
+            codBtn.disabled = true;
+        } else {
+            const details = pending.bookingDetails || {};
+            summaryEl.innerHTML = `
+                <div class="summary-row"><span>Service:</span><strong>${details.service || pending.description || 'Service booking'}</strong></div>
+                ${details.services ? `<div class="summary-row"><span>Selected Services:</span><strong>${formatList(details.services)}</strong></div>` : ''}
+                ${details.serviceDetail ? `<div class="summary-row"><span>Service Type:</span><strong>${details.serviceDetail}</strong></div>` : ''}
+                <div class="summary-row"><span>Date:</span><strong>${details.date || 'Not selected'}</strong></div>
+                <div class="summary-row"><span>Time:</span><strong>${details.time || 'Not selected'}</strong></div>
+                <div class="summary-row"><span>Address:</span><strong>${details.address || 'Not provided'}</strong></div>
+                <div class="summary-row"><span>Amount:</span><strong>₹${pending.amount}</strong></div>
+                ${details.message ? `<div class="summary-row"><span>Notes:</span><strong>${details.message}</strong></div>` : ''}
+            `;
+        }
+
+        onlineBtn.addEventListener('click', () => {
+            if (!pending) return;
+            noticeEl.textContent = 'Opening online payment...';
+            noticeEl.className = 'booked-notice booked-notice-info';
+            processRazorpayPayment(pending.amount, pending.description, pending.bookingDetails || {});
+        });
+
+        codBtn.addEventListener('click', async () => {
+            if (!pending) return;
+            const user = getCurrentUser();
+            if (!user) {
+                noticeEl.textContent = 'Please login first to confirm Cash on Delivery.';
+                noticeEl.className = 'booked-notice booked-notice-error';
+                return;
+            }
+
+            noticeEl.textContent = 'Confirming Cash on Delivery...';
+            noticeEl.className = 'booked-notice booked-notice-info';
+
+            try {
+                await postToApi('/api/payments', {
+                    email: user.email,
+                    amount: pending.amount,
+                    description: `Cash on Delivery - ${pending.description}`,
+                    razorpay_payment_id: `COD-${Date.now()}`
+                });
+
+                noticeEl.textContent = '✅ Cash on Delivery confirmed! Our technician will contact you soon.';
+                noticeEl.className = 'booked-notice booked-notice-success';
+                clearPending();
+            } catch (error) {
+                noticeEl.textContent = '❌ Could not confirm Cash on Delivery. Please try again.';
+                noticeEl.className = 'booked-notice booked-notice-error';
+            }
+        });
+
+        backHomeBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

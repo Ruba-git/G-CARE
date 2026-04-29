@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G care | Premium Appliance Repair Virudhunagar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">G <span>care</span></div>
+        <ul class="nav-links">
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="service-member-request.html">Join as Member</a></li>
+        </ul>
+        <div class="nav-auth">
+            <a href="login.html" class="btn-login-nav">Login</a>
+            <a href="signup.html" class="btn-signup-nav">Sign Up</a>
+        </div>
+        <button class="cta-nav" onclick="scrollToBooking()">Book Now</button>
+    </div>
+</nav>
+
+<section id="home" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <span class="badge">🏆 #1 Rated Appliance Repair Service</span>
+        <h1>Expert Appliance Repair <br><span>at Your Doorstep</span></h1>
+        <p>Licensed & Insured Technicians • Same-Day Service • 100% Satisfaction Guarantee</p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number">5000+</div>
+                <div class="stat-label">Repairs Done</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">4.9★</div>
+                <div class="stat-label">Customer Rating</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Support Available</div>
+            </div>
+        </div>
+        <div class="hero-btns">
+            <button class="btn-primary" onclick="scrollToBooking()">Get Instant Quote</button>
+            <a href="tel:+919876543210" class="btn-secondary">
+                <span>📞</span> Call Emergency Service
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="services">
+    <div class="container">
+        <div class="section-title">
+            <h2>Our Services</h2>
+            <p>Professional repair services for all your home appliances</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card" id="ac">
+                <div class="service-icon">❄️</div>
+                <h3>AC Repair</h3>
+                <ul class="service-list">
+                    <li>Gas Charging - ₹800</li>
+                    <li>Deep Cleaning - ₹1200</li>
+                    <li>Installation - ₹1500</li>
+                    <li>Compressor Replacement - ₹3000</li>
+                    <li>Leak Detection & Repair - ₹1000</li>
+                </ul>
+                <div class="service-subselection">
+                    <select id="acSubService" class="service-subservice">
+                        <option value="Gas Charging">Gas Charging</option>
+                        <option value="Deep Cleaning">Deep Cleaning</option>
+                        <option value="Installation">Installation</option>
+                        <option value="Compressor Replacement">Compressor Replacement</option>
+                        <option value="Leak Detection & Repair">Leak Detection & Repair</option>
+                    </select>
+                </div>
+                <div class="service-actions">
+                    <button class="btn-service" onclick="toggleServiceBooking('ac')">Book Now</button>
+                    <button class="btn-login" onclick="toggleAuthForm('ac')">Login</button>
+                </div>
+                <div id="ac-booking" class="inline-booking" style="display: none;">
+                    <div class="booking-header">
+                        <h4>Book AC Repair Service</h4>
+                        <span class="booking-close" onclick="closeServiceBooking('ac')">&times;</span>
+                    </div>
+                    <form id="ac-bookingForm" class="service-booking-form" onsubmit="return false;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ac-bookName">Full Name</label>
+                                <input type="text" id="ac-bookName" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ac-bookPhone">Phone Number</label>
+                                <input type="tel" id="ac-bookPhone" placeholder="Phone Number" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="ac-bookDate">Preferred Date</label>
+                                <input type="date" id="ac-bookDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ac-bookTime">Time Slot</label>
+                                <select id="ac-bookTime" required>
+                                    <option value="">Select Time</option>
+                                    <option value="morning">Morning (9AM - 12PM)</option>
+                                    <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                    <option value="evening">Evening (4PM - 8PM)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ac-bookAddress">Address</label>
+                            <input type="text" id="ac-bookAddress" placeholder="Address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="ac-bookMessage">Problem Details</label>
+                            <textarea id="ac-bookMessage" placeholder="Describe the issue" rows="3"></textarea>
+                        </div>
+                        <div class="service-selection">
+                            <label>Select AC Services:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="ac-gasCharging" value="Gas Charging" data-price="800">
+                                    <span>Gas Charging - ₹800</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="ac-deepCleaning" value="Deep Cleaning" data-price="1200">
+                                    <span>Deep Cleaning - ₹1200</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="ac-installation" value="Installation" data-price="1500">
+                                    <span>Installation - ₹1500</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="ac-compressor" value="Compressor Replacement" data-price="3000">
+                                    <span>Compressor Replacement - ₹3000</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="ac-leakDetection" value="Leak Detection & Repair" data-price="1000">
+                                    <span>Leak Detection & Repair - ₹1000</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="booking-price">
+                            <strong>Selected Services: <span id="ac-selectedServices">None</span></strong>
+                            <strong>Total Price: ₹<span id="ac-totalPrice">0</span></strong>
+                        </div>
+                        <button type="submit" class="btn-primary">Confirm Booking</button>
+                    </form>
+                </div>
+                <div id="ac-auth" class="inline-auth" style="display: none;">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" onclick="showLoginForm('ac')">Login</button>
+                        <button class="auth-tab" onclick="showSignUpForm('ac')">Sign Up</button>
+                    </div>
+                    <div id="ac-login" class="auth-form">
+                        <form id="ac-loginForm">
+                            <div class="form-group">
+                                <input type="email" id="ac-loginEmail" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="ac-loginPassword" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Login</button>
+                        </form>
+                    </div>
+                    <div id="ac-signup" class="auth-form" style="display: none;">
+                        <form id="ac-signUpForm">
+                            <div class="form-group">
+                                <input type="text" id="ac-signUpName" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="ac-signUpEmail" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="ac-signUpPhone" placeholder="Phone Number" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="ac-signUpPassword" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="service-card" id="fridge">
+                <div class="service-icon">🧊</div>
+                <h3>Refrigerator Repair</h3>
+                <ul class="service-list">
+                    <li>Cooling System Repair - ₹1500</li>
+                    <li>Defrost & Ice Removal - ₹1000</li>
+                    <li>Thermostat & Sensor Replacement - ₹1200</li>
+                    <li>Compressor Service & Replacement - ₹2500</li>
+                    <li>Door Seal & Leak Fix - ₹800</li>
+                </ul>
+                <div class="service-subselection">
+                    <select id="fridgeSubService" class="service-subservice">
+                        <option value="Cooling System Repair">Cooling System Repair</option>
+                        <option value="Defrost & Ice Removal">Defrost & Ice Removal</option>
+                        <option value="Thermostat & Sensor Replacement">Thermostat & Sensor Replacement</option>
+                        <option value="Compressor Service & Replacement">Compressor Service & Replacement</option>
+                        <option value="Door Seal & Leak Fix">Door Seal & Leak Fix</option>
+                    </select>
+                </div>
+                <div class="service-actions">
+                    <button class="btn-service" onclick="toggleServiceBooking('fridge')">Book Now</button>
+                    <button class="btn-login" onclick="toggleAuthForm('fridge')">Login</button>
+                </div>
+                <div id="fridge-booking" class="inline-booking" style="display: none;">
+                    <div class="booking-header">
+                        <h4>Book Refrigerator Repair Service</h4>
+                        <span class="booking-close" onclick="closeServiceBooking('fridge')">&times;</span>
+                    </div>
+                    <form id="fridge-bookingForm" class="service-booking-form" onsubmit="return false;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fridge-bookName">Full Name</label>
+                                <input type="text" id="fridge-bookName" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fridge-bookPhone">Phone Number</label>
+                                <input type="tel" id="fridge-bookPhone" placeholder="Phone Number" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fridge-bookDate">Preferred Date</label>
+                                <input type="date" id="fridge-bookDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fridge-bookTime">Time Slot</label>
+                                <select id="fridge-bookTime" required>
+                                    <option value="">Select Time</option>
+                                    <option value="morning">Morning (9AM - 12PM)</option>
+                                    <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                    <option value="evening">Evening (4PM - 8PM)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fridge-bookAddress">Address</label>
+                            <input type="text" id="fridge-bookAddress" placeholder="Address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fridge-bookMessage">Problem Details</label>
+                            <textarea id="fridge-bookMessage" placeholder="Describe the issue" rows="3"></textarea>
+                        </div>
+                        <div class="service-selection">
+                            <label>Select Refrigerator Services:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="fridge-coolingRepair" value="Cooling System Repair" data-price="1500">
+                                    <span>Cooling System Repair - ₹1500</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="fridge-defrost" value="Defrost & Ice Removal" data-price="1000">
+                                    <span>Defrost & Ice Removal - ₹1000</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="fridge-thermostat" value="Thermostat & Sensor Replacement" data-price="1200">
+                                    <span>Thermostat & Sensor Replacement - ₹1200</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="fridge-compressor" value="Compressor Service & Replacement" data-price="2500">
+                                    <span>Compressor Service & Replacement - ₹2500</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="fridge-doorSeal" value="Door Seal & Leak Fix" data-price="800">
+                                    <span>Door Seal & Leak Fix - ₹800</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="booking-price">
+                            <strong>Selected Services: <span id="fridge-selectedServices">None</span></strong>
+                            <strong>Total Price: ₹<span id="fridge-totalPrice">0</span></strong>
+                        </div>
+                        <button type="submit" class="btn-primary">Confirm Booking</button>
+                    </form>
+                </div>
+                <div id="fridge-auth" class="inline-auth" style="display: none;">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" onclick="showLoginForm('fridge')">Login</button>
+                        <button class="auth-tab" onclick="showSignUpForm('fridge')">Sign Up</button>
+                    </div>
+                    <div id="fridge-login" class="auth-form">
+                        <form id="fridge-loginForm">
+                            <div class="form-group">
+                                <input type="email" id="fridge-loginEmail" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="fridge-loginPassword" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Login</button>
+                        </form>
+                    </div>
+                    <div id="fridge-signup" class="auth-form" style="display: none;">
+                        <form id="fridge-signUpForm">
+                            <div class="form-group">
+                                <input type="text" id="fridge-signUpName" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="fridge-signUpEmail" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="fridge-signUpPhone" placeholder="Phone Number" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="fridge-signUpPassword" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="service-card" id="wash">
+                <div class="service-icon">🧺</div>
+                <h3>Washing Machine Repair</h3>
+                <ul class="service-list">
+                    <li>Motor & Drum Repair - ₹2000</li>
+                    <li>Full Maintenance - ₹1000</li>
+                    <li>Spin Cycle Troubleshooting - ₹1200</li>
+                    <li>Water Inlet/Drain Repair - ₹800</li>
+                    <li>Control Panel & Sensor Fix - ₹1500</li>
+                </ul>
+                <div class="service-subselection">
+                    <select id="washSubService" class="service-subservice">
+                        <option value="Motor & Drum Repair">Motor & Drum Repair</option>
+                        <option value="Full Maintenance">Full Maintenance</option>
+                        <option value="Spin Cycle Troubleshooting">Spin Cycle Troubleshooting</option>
+                        <option value="Water Inlet/Drain Repair">Water Inlet/Drain Repair</option>
+                        <option value="Control Panel & Sensor Fix">Control Panel & Sensor Fix</option>
+                    </select>
+                </div>
+                <div class="service-actions">
+                    <button class="btn-service" onclick="toggleServiceBooking('wash')">Book Now</button>
+                    <button class="btn-login" onclick="toggleAuthForm('wash')">Login</button>
+                </div>
+                <div id="wash-booking" class="inline-booking" style="display: none;">
+                    <div class="booking-header">
+                        <h4>Book Washing Machine Repair Service</h4>
+                        <span class="booking-close" onclick="closeServiceBooking('wash')">&times;</span>
+                    </div>
+                    <form id="wash-bookingForm" class="service-booking-form" onsubmit="return false;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="wash-bookName">Full Name</label>
+                                <input type="text" id="wash-bookName" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wash-bookPhone">Phone Number</label>
+                                <input type="tel" id="wash-bookPhone" placeholder="Phone Number" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="wash-bookDate">Preferred Date</label>
+                                <input type="date" id="wash-bookDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="wash-bookTime">Time Slot</label>
+                                <select id="wash-bookTime" required>
+                                    <option value="">Select Time</option>
+                                    <option value="morning">Morning (9AM - 12PM)</option>
+                                    <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                    <option value="evening">Evening (4PM - 8PM)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="wash-bookAddress">Address</label>
+                            <input type="text" id="wash-bookAddress" placeholder="Address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="wash-bookMessage">Problem Details</label>
+                            <textarea id="wash-bookMessage" placeholder="Describe the issue" rows="3"></textarea>
+                        </div>
+                        <div class="service-selection">
+                            <label>Select Washing Machine Services:</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="wash-motorDrum" value="Motor & Drum Repair" data-price="2000">
+                                    <span>Motor & Drum Repair - ₹2000</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="wash-maintenance" value="Full Maintenance" data-price="1000">
+                                    <span>Full Maintenance - ₹1000</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="wash-spinCycle" value="Spin Cycle Troubleshooting" data-price="1200">
+                                    <span>Spin Cycle Troubleshooting - ₹1200</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="wash-waterInlet" value="Water Inlet/Drain Repair" data-price="800">
+                                    <span>Water Inlet/Drain Repair - ₹800</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" id="wash-controlPanel" value="Control Panel & Sensor Fix" data-price="1500">
+                                    <span>Control Panel & Sensor Fix - ₹1500</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="booking-price">
+                            <strong>Selected Services: <span id="wash-selectedServices">None</span></strong>
+                            <strong>Total Price: ₹<span id="wash-totalPrice">0</span></strong>
+                        </div>
+                        <button type="submit" class="btn-primary">Confirm Booking</button>
+                    </form>
+                </div>
+                <div id="wash-auth" class="inline-auth" style="display: none;">
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" onclick="showLoginForm('wash')">Login</button>
+                        <button class="auth-tab" onclick="showSignUpForm('wash')">Sign Up</button>
+                    </div>
+                    <div id="wash-login" class="auth-form">
+                        <form id="wash-loginForm">
+                            <div class="form-group">
+                                <input type="email" id="wash-loginEmail" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="wash-loginPassword" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Login</button>
+                        </form>
+                    </div>
+                    <div id="wash-signup" class="auth-form" style="display: none;">
+                        <form id="wash-signUpForm">
+                            <div class="form-group">
+                                <input type="text" id="wash-signUpName" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="wash-signUpEmail" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="wash-signUpPhone" placeholder="Phone Number" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="wash-signUpPassword" placeholder="Password" required>
+                            </div>
+                            <button type="submit" class="btn-primary">Sign Up</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="inlineBooking" class="inline-booking" style="display: none;">
+            <div class="booking-content">
+                <h3>Book Your Service</h3>
+                <form id="inlineBookingForm" class="booking-form" onsubmit="return false;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="inlineServiceType">Select Service</label>
+                            <select id="inlineServiceType" required>
+                                <option value="">Choose Service</option>
+                                <option value="AC Repair">AC Repair</option>
+                                <option value="Refrigerator Repair">Refrigerator Repair</option>
+                                <option value="Washing Machine Repair">Washing Machine Repair</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inlineServiceDetail">Service Type</label>
+                            <select id="inlineServiceDetail" required>
+                                <option value="">Select Service Type</option>
+                                <option value="Gas Charging">Gas Charging</option>
+                                <option value="Deep Cleaning">Deep Cleaning</option>
+                                <option value="Installation">Installation</option>
+                                <option value="Compressor Replacement">Compressor Replacement</option>
+                                <option value="Leak Detection & Repair">Leak Detection & Repair</option>
+                                <option value="Cooling System Repair">Cooling System Repair</option>
+                                <option value="Defrost & Ice Removal">Defrost & Ice Removal</option>
+                                <option value="Thermostat & Sensor Replacement">Thermostat & Sensor Replacement</option>
+                                <option value="Door Seal & Leak Fix">Door Seal & Leak Fix</option>
+                                <option value="Motor & Drum Repair">Motor & Drum Repair</option>
+                                <option value="Full Maintenance">Full Maintenance</option>
+                                <option value="Spin Cycle Troubleshooting">Spin Cycle Troubleshooting</option>
+                                <option value="Water Inlet/Drain Repair">Water Inlet/Drain Repair</option>
+                                <option value="Control Panel & Sensor Fix">Control Panel & Sensor Fix</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="price-display">
+                        <strong>Estimated Price: <span id="inlinePrice">₹0</span></strong>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="inlineName">Full Name</label>
+                            <input type="text" id="inlineName" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inlinePhone">Phone Number</label>
+                            <input type="tel" id="inlinePhone" placeholder="Phone Number" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="inlineDate">Preferred Date</label>
+                            <input type="date" id="inlineDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="inlineTime">Time Slot</label>
+                            <select id="inlineTime" required>
+                                <option value="">Select Time</option>
+                                <option value="morning">Morning (9AM - 12PM)</option>
+                                <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                <option value="evening">Evening (4PM - 8PM)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="inlineAddress">Address</label>
+                            <input type="text" id="inlineAddress" placeholder="Address" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inlineMessage">Problem Details</label>
+                        <textarea id="inlineMessage" placeholder="Optional details" rows="3"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Submit Booking</button>
+                        <button type="button" class="btn-secondary" onclick="hideInlineBooking()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="booking" class="booking">
+    <div class="container">
+        <div class="section-title">
+            <h2>Book Multiple Services</h2>
+            <p>Select one or more services from AC, Refrigerator, or Washing Machine repairs. Get them all done in one visit!</p>
+        </div>
+        <div class="booking-content">
+            <div class="booking-voice-control">
+                <button type="button" class="booking-voice-btn" id="bookingVoiceBtn" onclick="toggleBookingVoiceControl()">
+                    <span id="bookingVoiceIcon">🎤</span>
+                    <span id="bookingVoiceText">Booking Voice</span>
+                </button>
+                <p class="booking-voice-hint">Say commands like “add gas charging”, “fill name”, “select time”, or “book now”.</p>
+            </div>
+            <form id="bookingSectionForm" class="booking-form" onsubmit="return false;">
+                <div class="services-selection">
+                    <h3>Select Services</h3>
+                    <div class="service-category">
+                        <h4>AC Services</h4>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Gas Charging" data-price="800">
+                                <span class="checkmark"></span>
+                                Gas Charging - ₹800
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Deep Cleaning" data-price="1200">
+                                <span class="checkmark"></span>
+                                Deep Cleaning - ₹1200
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Installation" data-price="1500">
+                                <span class="checkmark"></span>
+                                Installation - ₹1500
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Compressor Replacement" data-price="3000">
+                                <span class="checkmark"></span>
+                                Compressor Replacement - ₹3000
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Leak Detection & Repair" data-price="1000">
+                                <span class="checkmark"></span>
+                                Leak Detection & Repair - ₹1000
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Cooling System Repair" data-price="1500">
+                                <span class="checkmark"></span>
+                                Cooling System Repair - ₹1500
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="service-category">
+                        <h4>Refrigerator Services</h4>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Defrost & Ice Removal" data-price="1000">
+                                <span class="checkmark"></span>
+                                Defrost & Ice Removal - ₹1000
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Thermostat & Sensor Replacement" data-price="1200">
+                                <span class="checkmark"></span>
+                                Thermostat & Sensor Replacement - ₹1200
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Door Seal & Leak Fix" data-price="800">
+                                <span class="checkmark"></span>
+                                Door Seal & Leak Fix - ₹800
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="service-category">
+                        <h4>Washing Machine Services</h4>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Motor & Drum Repair" data-price="2000">
+                                <span class="checkmark"></span>
+                                Motor & Drum Repair - ₹2000
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Full Maintenance" data-price="1000">
+                                <span class="checkmark"></span>
+                                Full Maintenance - ₹1000
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Spin Cycle Troubleshooting" data-price="1200">
+                                <span class="checkmark"></span>
+                                Spin Cycle Troubleshooting - ₹1200
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Water Inlet/Drain Repair" data-price="800">
+                                <span class="checkmark"></span>
+                                Water Inlet/Drain Repair - ₹800
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="service" value="Control Panel & Sensor Fix" data-price="1500">
+                                <span class="checkmark"></span>
+                                Control Panel & Sensor Fix - ₹1500
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Comprehensive Price Estimation -->
+                <div class="estimation-container">
+                    <h3>Price Estimation</h3>
+                    
+                    <div class="estimation-breakdown">
+                        <div class="estimation-row">
+                            <span class="estimation-label">Service Charges:</span>
+                            <span class="estimation-value" id="serviceCharges">₹0</span>
+                        </div>
+                        <div class="estimation-row">
+                            <span class="estimation-label">Travel/Service Fee:</span>
+                            <span class="estimation-value" id="travelFee">₹200</span>
+                        </div>
+                        <div class="estimation-row">
+                            <span class="estimation-label">GST (18%):</span>
+                            <span class="estimation-value" id="gstAmount">₹0</span>
+                        </div>
+                        <div class="estimation-row urgency-row">
+                            <label class="urgency-label">
+                                <input type="checkbox" id="urgencyService">
+                                <span class="checkmark-small"></span>
+                                Urgent Service (Same Day) +₹300
+                            </label>
+                        </div>
+                        <div class="estimation-divider"></div>
+                        <div class="estimation-row total-row">
+                            <span class="estimation-label total-label">Total Estimated Cost:</span>
+                            <span class="estimation-value total-value" id="totalEstimation">₹200</span>
+                        </div>
+                    </div>
+                    
+                    <div class="estimation-notes">
+                        <small>
+                            <strong>Note:</strong> Final prices may vary based on actual diagnosis. 
+                            Travel fee is ₹200 within city limits. GST applicable on total amount.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sectionName">Full Name</label>
+                        <input type="text" id="sectionName" placeholder="Full Name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sectionPhone">Phone Number</label>
+                        <input type="tel" id="sectionPhone" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sectionDate">Preferred Date</label>
+                        <input type="date" id="sectionDate" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="sectionTime">Time Slot</label>
+                        <select id="sectionTime" required>
+                            <option value="">Select Time</option>
+                            <option value="morning">Morning (9AM - 12PM)</option>
+                            <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                            <option value="evening">Evening (4PM - 8PM)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sectionAddress">Address</label>
+                        <input type="text" id="sectionAddress" placeholder="Address" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sectionMessage">Problem Details</label>
+                    <textarea id="sectionMessage" placeholder="Optional details" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Submit Booking</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section id="about" class="about">
+    <div class="container"
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Why Choose G care?</h2>
+                <p>With over 8 years of experience in appliance repair, we pride ourselves on delivering exceptional service quality and customer satisfaction. Our certified technicians use only genuine parts and cutting-edge diagnostic tools.</p>
+                <div class="features">
+                    <div class="feature">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-text">
+                            <h4>Lightning Fast</h4>
+                            <p>Same-day service available</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🛡️</div>
+                        <div class="feature-text">
+                            <h4>Fully Insured</h4>
+                            <p>100% protection guarantee</p>
+                        </div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">💎</div>
+                        <div class="feature-text">
+                            <h4>Premium Parts</h4>
+                            <p>Genuine manufacturer parts only</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-image">
+                <div class="image-placeholder">
+                    <span>🛠️</span>
+                    <p>Professional Technicians</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</section>
+
+<section id="testimonials" class="testimonials">
+    <div class="container">
+        <div class="section-title">
+            <h2>What Our Customers Say</h2>
+            <p>Join thousands of satisfied customers who trust G care</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-rating">★★★★★</div>
+                <p>"Excellent service! The technician was professional, arrived on time, and fixed my AC in under an hour. Highly recommended!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">R</div>
+                    <div class="author-info">
+                        <div class="author-name">Rajesh Kumar</div>
+                        <div class="author-location">Virudhunagar</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-rating">★★★★★</div>
+                <p>"Very reliable and trustworthy. They used genuine parts and provided a 6-month warranty. Will definitely call again."</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">P</div>
+                    <div class="author-info">
+                        <div class="author-name">Priya Sharma</div>
+                        <div class="author-location">Virudhunagar</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-rating">★★★★★</div>
+                <p>"Emergency service was fantastic. They responded within 30 minutes and fixed my refrigerator late at night. Lifesavers!"</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">M</div>
+                    <div class="author-info">
+                        <div class="author-avatar">M</div>
+                        <div class="author-info">
+                            <div class="author-name">Mohan Raj</div>
+                            <div class="author-location">Virudhunagar</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle">Book Your Service</h2>
+        <form id="bookingForm" onsubmit="return false;">
+            <div class="form-group">
+                <input type="text" id="custName" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="tel" id="custPhone" placeholder="Phone Number" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="custEmail" placeholder="Email Address (Optional)">
+            </div>
+            <div class="form-group">
+                <select id="modalServiceType" required>
+                    <option value="">Select Service</option>
+                    <option value="AC Repair">AC Repair</option>
+                    <option value="Refrigerator Repair">Refrigerator Repair</option>
+                    <option value="Washing Machine Repair">Washing Machine Repair</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" id="custAddress" placeholder="Address" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="date" id="bookDate" required>
+                </div>
+                <div class="form-group">
+                    <select id="timeSlot">
+                        <option value="">Select Time</option>
+                        <option value="morning">Morning (9AM - 12PM)</option>
+                        <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                        <option value="evening">Evening (4PM - 8PM)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea id="custMessage" placeholder="Additional details about the problem (optional)" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<div id="authModal" class="modal">
+    <div class="modal-content auth-modal">
+        <span class="close" onclick="closeAuthModal()">&times;</span>
+        <div class="auth-tabs">
+            <button class="auth-tab active" onclick="showLogin()">Login</button>
+            <button class="auth-tab" onclick="showSignUp()">Sign Up</button>
+        </div>
+        <div id="loginForm" class="auth-form">
+            <h2>Login to Your Account</h2>
+            <form id="loginFormElement">
+                <div class="form-group">
+                    <input type="email" id="loginEmail" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="loginPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+        <div id="signUpForm" class="auth-form" style="display: none;">
+            <h2>Create Your Account</h2>
+            <form id="signUpFormElement">
+                <div class="form-group">
+                    <input type="text" id="signUpName" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="signUpEmail" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="signUpPhone" placeholder="Phone Number" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="signUpPassword" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<section id="auth" class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-header">
+                <h2>Welcome to G care</h2>
+                <p>Login or create an account to book our services</p>
+            </div>
+            <div class="auth-content">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="showAuthLogin()">Login</button>
+                    <button class="auth-tab" onclick="showAuthSignUp()">Sign Up</button>
+                </div>
+                <div id="authLoginForm" class="auth-form">
+                    <h3>Login to Your Account</h3>
+                    <form id="authLoginFormElement">
+                        <div class="form-group">
+                            <label for="authLoginEmail">Email Address</label>
+                            <input type="email" id="authLoginEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="authLoginPassword">Password</label>
+                            <input type="password" id="authLoginPassword" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Login</button>
+                    </form>
+                </div>
+                <div id="authSignUpForm" class="auth-form" style="display: none;">
+                    <h3>Create Your Account</h3>
+                    <form id="authSignUpFormElement">
+                        <div class="form-group">
+                            <label for="authSignUpName">Full Name</label>
+                            <input type="text" id="authSignUpName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="authSignUpEmail">Email Address</label>
+                            <input type="email" id="authSignUpEmail" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="authSignUpPhone">Phone Number</label>
+                            <input type="tel" id="authSignUpPhone" placeholder="Enter your phone number" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="authSignUpPassword">Password</label>
+                            <input type="password" id="authSignUpPassword" placeholder="Create a password" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="contact-content">
+            <div class="contact-info">
+                <h2>Get In Touch</h2>
+                <p>Need immediate assistance? Contact us 24/7</p>
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-text">
+                            <h4>Phone</h4>
+                            <p>+91 98765 43210</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-text">
+                            <h4>Email</h4>
+                            <p>support@gcare.in</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-text">
+                            <h4>Address</h4>
+                            <p>123 Main Street, Virudhunagar, Tamil Nadu</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <h3>Send us a Message</h3>
+                <form>
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <input type="tel" placeholder="Your Phone" required>
+                    <textarea placeholder="Your Message" rows="4" required></textarea>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <div class="logo">G <span>care</span></div>
+            <p>Your trusted partner for appliance repair services in Virudhunagar.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Services</h4>
+            <ul>
+                <li><a href="#ac">AC Repair</a></li>
+                <li><a href="#fridge">Refrigerator Repair</a></li>
+                <li><a href="#wash">Washing Machine Repair</a></li>
+                <li><a href="#other">Other Appliances</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Follow Us</h4>
+            <div class="social-links">
+                <a href="#" class="social-link">📘</a>
+                <a href="#" class="social-link">📷</a>
+                <a href="#" class="social-link">🐦</a>
+                <a href="#" class="social-link">💼</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2026 G care Services | All Rights Reserved | Licensed & Insured Technicians</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
