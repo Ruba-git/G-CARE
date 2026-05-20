@@ -17,7 +17,7 @@
 
             <div class="booked-actions">
                 <button id="onlinePaymentBtn" class="btn-primary btn-full">Online Payment</button>
-                <button id="codPaymentBtn" class="btn-secondary btn-full">Cash on Delivery</button>
+                <button id="codPaymentBtn" class="btn-secondary btn-full">Cash on Service</button>
             </div>
 
             <div id="bookedNotice" class="booked-notice"></div>
@@ -26,6 +26,8 @@
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
     <script src="script.js"></script>
     <script>
         const pending = JSON.parse(localStorage.getItem('smartCarePendingBooking') || 'null');
@@ -73,27 +75,39 @@
             if (!pending) return;
             const user = getCurrentUser();
             if (!user) {
-                noticeEl.textContent = 'Please login first to confirm Cash on Delivery.';
+                noticeEl.textContent = 'Please login first to confirm Cash on Service.';
                 noticeEl.className = 'booked-notice booked-notice-error';
                 return;
             }
 
-            noticeEl.textContent = 'Confirming Cash on Delivery...';
+            if (!window.supabaseClient) {
+                noticeEl.textContent = '❌ Supabase is not initialized. Please reload the page.';
+                noticeEl.className = 'booked-notice booked-notice-error';
+                return;
+            }
+
+            noticeEl.textContent = 'Confirming Cash on Service...';
             noticeEl.className = 'booked-notice booked-notice-info';
 
             try {
-                await postToApi('/api/payments', {
+                const userId = user.id || null;
+                const { data, error } = await window.supabaseClient.from('payments').insert({
+                    user_id: userId,
                     email: user.email,
                     amount: pending.amount,
-                    description: `Cash on Delivery - ${pending.description}`,
-                    razorpay_payment_id: `COD-${Date.now()}`
+                    description: `Cash on Service - ${pending.description}`,
+                    payment_method: 'cash_on_service',
+                    payment_status: 'pending',
+                    razorpay_payment_id: `CASH-SERVICE-${Date.now()}`
                 });
+                if (error) throw error;
 
-                noticeEl.textContent = '✅ Cash on Delivery confirmed! Our technician will contact you soon.';
+                noticeEl.textContent = '✅ Cash on Service confirmed! Our technician will contact you soon.';
                 noticeEl.className = 'booked-notice booked-notice-success';
                 clearPending();
             } catch (error) {
-                noticeEl.textContent = '❌ Could not confirm Cash on Delivery. Please try again.';
+                console.error('COD save failed', error);
+                noticeEl.textContent = `❌ Could not confirm Cash on Delivery. ${error?.message || 'Please try again.'}`;
                 noticeEl.className = 'booked-notice booked-notice-error';
             }
         });

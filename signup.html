@@ -11,8 +11,10 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <!-- Razorpay -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <!-- reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="supabase-config.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="auth-page">
@@ -68,7 +70,6 @@
                             I agree to the <a href="#" target="_blank">Terms of Service</a> and <a href="#" target="_blank">Privacy Policy</a>
                         </label>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
                     <button type="button" id="sendOtpBtn" class="btn-primary">Send OTP</button>
                     <div id="otpSection" style="display: none;">
                         <div class="form-group">
@@ -92,7 +93,6 @@
         </button>
     </div>
 
-    <script src="script.js"></script>
     <script>
         // Google Sign-In initialization
         function initGoogleSignIn() {
@@ -161,31 +161,13 @@
                 return;
             }
 
-            const recaptchaResponse = grecaptcha.getResponse();
-            if (!recaptchaResponse) {
-                showNotification("❌ Please complete the reCAPTCHA.", "error");
-                return;
-            }
+            const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+            window.generatedSignupOtp = generatedOtp;
+            console.log('Demo OTP:', generatedOtp);
 
-            try {
-                const response = await fetch('/api/send-otp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ phone })
-                });
-                const result = await response.json();
-                if (!response.ok) {
-                    throw new Error(result.message || 'Failed to send OTP');
-                }
-
-                showNotification("✅ OTP sent to your phone number. Check console for demo OTP.", "success");
-                document.getElementById('sendOtpBtn').style.display = 'none';
-                document.getElementById('otpSection').style.display = 'block';
-            } catch (error) {
-                showNotification(`❌ ${error.message}`, "error");
-            }
+            showNotification("✅ OTP sent to your phone number. Check console for demo OTP.", "success");
+            document.getElementById('sendOtpBtn').style.display = 'none';
+            document.getElementById('otpSection').style.display = 'block';
         });
 
         // Email Sign Up - Verify OTP and Create Account
@@ -197,39 +179,37 @@
             const password = document.getElementById('password').value;
             const otp = document.getElementById('otp').value;
 
-            if (!otp || otp.length !== 6) {
-                showNotification("❌ Please enter a valid 6-digit OTP.", "error");
+            if (!otp || otp.length !== 6 || otp !== window.generatedSignupOtp) {
+                showNotification("❌ Please enter the valid 6-digit OTP shown in console.", "error");
+                return;
+            }
+
+            if (!window.supabaseClient) {
+                showNotification('❌ Supabase is not initialized. Please reload the page.', 'error');
                 return;
             }
 
             try {
-                // First verify OTP
-                const otpResponse = await fetch('/api/verify-otp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ phone, otp })
+                const { data, error } = await window.supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            name,
+                            phone
+                        }
+                    }
                 });
-                const otpResult = await otpResponse.json();
-                if (!otpResponse.ok) {
-                    throw new Error(otpResult.message || 'OTP verification failed');
-                }
+                if (error) throw error;
 
-                // Then create account
-                const response = await fetch('/api/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ name, email, phone, password })
-                });
-                const result = await response.json();
-                if (!response.ok) {
-                    throw new Error(result.message || 'Signup failed');
-                }
+                const user = {
+                    id: data?.user?.id || null,
+                    email: data?.user?.email || email,
+                    name: data?.user?.user_metadata?.name || name,
+                    phone: data?.user?.user_metadata?.phone || phone
+                };
 
-                localStorage.setItem('smartCareUser', JSON.stringify(result));
+                localStorage.setItem('smartCareUser', JSON.stringify(user));
                 showNotification("✅ Account created successfully! Welcome to G care.", "success");
                 setTimeout(() => {
                     window.location.href = 'index.html';

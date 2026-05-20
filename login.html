@@ -11,8 +11,10 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <!-- Razorpay -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <!-- reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="supabase-config.js" defer></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="auth-page">
@@ -57,7 +59,6 @@
                         </label>
                         <a href="#" class="forgot-password">Forgot password?</a>
                     </div>
-                    <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
                     <button type="submit" class="btn-primary">Sign In</button>
                 </form>
 
@@ -74,7 +75,6 @@
         </button>
     </div>
 
-    <script src="script.js"></script>
     <script>
         // Google Sign-In initialization
         function initGoogleSignIn() {
@@ -118,33 +118,33 @@
             e.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const recaptchaResponse = grecaptcha.getResponse();
 
-            if (!recaptchaResponse) {
-                showNotification("❌ Please complete the reCAPTCHA.", "error");
+            if (!window.supabaseClient) {
+                showNotification('❌ Supabase is not initialized. Please reload the page.', 'error');
                 return;
             }
 
             try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, password, recaptcha: recaptchaResponse })
+                const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
                 });
-                const result = await response.json();
-                if (!response.ok) {
-                    throw new Error(result.message || 'Login failed');
-                }
+                if (error) throw error;
 
-                localStorage.setItem('smartCareUser', JSON.stringify(result));
-                showNotification("✅ Login successful! Welcome back.", "success");
+                const user = {
+                    id: data?.user?.id || null,
+                    email: data?.user?.email || email,
+                    name: data?.user?.user_metadata?.name || 'User',
+                    phone: data?.user?.user_metadata?.phone || ''
+                };
+
+                localStorage.setItem('smartCareUser', JSON.stringify(user));
+                showNotification('✅ Login successful! Welcome back.', 'success');
                 setTimeout(() => {
                     window.location.href = 'index.html';
                 }, 1000);
             } catch (error) {
-                showNotification(`❌ ${error.message}`, "error");
+                showNotification(`❌ ${error.message}`, 'error');
             }
         });
 

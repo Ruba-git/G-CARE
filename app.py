@@ -49,15 +49,7 @@ def rust_verify_password(password, password_hash):
         return check_password_hash(password_hash, password)
 
 
-def verify_recaptcha(recaptcha_response):
-    secret_key = 'YOUR_RECAPTCHA_SECRET_KEY'  # Replace with your actual secret key
-    payload = {
-        'secret': secret_key,
-        'response': recaptcha_response
-    }
-    response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=payload)
-    result = response.json()
-    return result.get('success', False)
+
 
 
 app = Flask(__name__, static_folder='.', static_url_path='')
@@ -238,10 +230,7 @@ def login():
     data = get_request_data()
     email = data.get('email', '').strip().lower()
     password = data.get('password', '')
-    recaptcha_response = data.get('recaptcha', '')
 
-    if not verify_recaptcha(recaptcha_response):
-        return jsonify({'message': 'reCAPTCHA verification failed.'}), 400
 
     if not email or not password:
         return jsonify({'message': 'Email and password are required.'}), 400

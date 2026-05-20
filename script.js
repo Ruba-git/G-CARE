@@ -408,7 +408,17 @@ document.getElementById('loginFormElement').addEventListener('submit', async (e)
     const password = document.getElementById('loginPassword').value;
 
     try {
-        const user = await postToApi('/api/login', { email, password });
+        const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+            email,
+            password
+        });
+        if (error) throw error;
+        const user = {
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.user_metadata?.name || 'User',
+            phone: data.user.user_metadata?.phone || ''
+        };
         saveCurrentUser(user);
         showNotification("✅ Login successful! Welcome back.", "success");
         closeAuthModal();
@@ -426,7 +436,23 @@ document.getElementById('signUpFormElement').addEventListener('submit', async (e
     const password = document.getElementById('signUpPassword').value;
 
     try {
-        const user = await postToApi('/api/signup', { name, email, phone, password });
+        const { data, error } = await window.supabaseClient.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    name,
+                    phone
+                }
+            }
+        });
+        if (error) throw error;
+        const user = {
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.user_metadata?.name || name,
+            phone: data.user.user_metadata?.phone || phone
+        };
         saveCurrentUser(user);
         showNotification("✅ Account created successfully! Welcome to G care.", "success");
         closeAuthModal();
@@ -445,7 +471,17 @@ if (authLoginForm) {
         const password = document.getElementById('authLoginPassword').value;
 
         try {
-            const user = await postToApi('/api/login', { email, password });
+            const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+            if (error) throw error;
+            const user = {
+                id: data.user.id,
+                email: data.user.email,
+                name: data.user.user_metadata?.name || 'User',
+                phone: data.user.user_metadata?.phone || ''
+            };
             saveCurrentUser(user);
             showNotification("✅ Login successful! Welcome back.", "success");
             document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
@@ -466,7 +502,23 @@ if (authSignUpForm) {
         const password = document.getElementById('authSignUpPassword').value;
 
         try {
-            const user = await postToApi('/api/signup', { name, email, phone, password });
+            const { data, error } = await window.supabaseClient.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        name,
+                        phone
+                    }
+                }
+            });
+            if (error) throw error;
+            const user = {
+                id: data.user.id,
+                email: data.user.email,
+                name: data.user.user_metadata?.name || name,
+                phone: data.user.user_metadata?.phone || phone
+            };
             saveCurrentUser(user);
             showNotification("✅ Account created successfully! Welcome to G care.", "success");
             document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
@@ -486,7 +538,17 @@ if (navLoginForm) {
         const password = document.getElementById('navLoginPassword').value;
 
         try {
-            const user = await postToApi('/api/login', { email, password });
+            const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+            if (error) throw error;
+            const user = {
+                id: data.user.id,
+                email: data.user.email,
+                name: data.user.user_metadata?.name || 'User',
+                phone: data.user.user_metadata?.phone || ''
+            };
             saveCurrentUser(user);
             showNotification("✅ Login successful! Welcome back.", "success");
             closeDropdowns();
@@ -507,7 +569,23 @@ if (navSignUpForm) {
         const password = document.getElementById('navSignUpPassword').value;
 
         try {
-            const user = await postToApi('/api/signup', { name, email, phone, password });
+            const { data, error } = await window.supabaseClient.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        name,
+                        phone
+                    }
+                }
+            });
+            if (error) throw error;
+            const user = {
+                id: data.user.id,
+                email: data.user.email,
+                name: data.user.user_metadata?.name || name,
+                phone: data.user.user_metadata?.phone || phone
+            };
             saveCurrentUser(user);
             showNotification("✅ Account created successfully! Welcome to G care.", "success");
             closeDropdowns();
@@ -610,7 +688,17 @@ function attachNavFormListeners() {
             const password = document.getElementById('navLoginPassword').value;
 
             try {
-                const user = await postToApi('/api/login', { email, password });
+                const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+                if (error) throw error;
+                const user = {
+                    id: data.user.id,
+                    email: data.user.email,
+                    name: data.user.user_metadata?.name || 'User',
+                    phone: data.user.user_metadata?.phone || ''
+                };
                 saveCurrentUser(user);
                 showNotification("✅ Login successful! Welcome back.", "success");
                 closeDropdowns();
@@ -630,7 +718,23 @@ function attachNavFormListeners() {
             const password = document.getElementById('navSignUpPassword').value;
 
             try {
-                const user = await postToApi('/api/signup', { name, email, phone, password });
+                const { data, error } = await window.supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            name,
+                            phone
+                        }
+                    }
+                });
+                if (error) throw error;
+                const user = {
+                    id: data.user.id,
+                    email: data.user.email,
+                    name: data.user.user_metadata?.name || name,
+                    phone: data.user.user_metadata?.phone || phone
+                };
                 saveCurrentUser(user);
                 showNotification("✅ Account created successfully! Welcome to G care.", "success");
                 closeDropdowns();
@@ -644,6 +748,7 @@ function attachNavFormListeners() {
 
 function logoutUser() {
     if (confirm('Are you sure you want to logout?')) {
+        window.supabaseClient.auth.signOut().catch(err => console.warn('Sign out error:', err));
         localStorage.removeItem('smartCareUser');
         updateNavAuth();
         showNotification("👋 Logged out successfully.", "info");
@@ -679,11 +784,12 @@ if (bookingModalForm) {
         };
 
         try {
-            await postToApi('/api/bookings', {
+            const { data, error } = await window.supabaseClient.from('bookings').insert({
+                user_id: getCurrentUserId(user),
                 email: user.email,
                 name: formData.name,
                 phone: formData.phone,
-                service: formData.service,
+                services: [formData.service], // array for consistency
                 date: formData.date,
                 time: formData.time,
                 address: formData.address,
@@ -694,6 +800,7 @@ if (bookingModalForm) {
                     "Washing Machine Repair": 1000
                 }[formData.service] || 1000
             });
+            if (error) throw error;
 
             saveCurrentUser({
                 name: formData.name,
@@ -761,7 +868,8 @@ if (bookingSectionForm) {
         };
 
         try {
-            await postToApi('/api/bookings', {
+            const { data, error } = await window.supabaseClient.from('bookings').insert({
+                user_id: getCurrentUserId(user),
                 email: user.email,
                 name: formData.name,
                 phone: formData.phone,
@@ -772,6 +880,7 @@ if (bookingSectionForm) {
                 address: formData.address,
                 message: formData.message
             });
+            if (error) throw error;
 
             saveCurrentUser({
                 name: formData.name,
@@ -829,18 +938,19 @@ if (inlineBookingForm) {
         };
 
         try {
-            await postToApi('/api/bookings', {
+            const { data, error } = await window.supabaseClient.from('bookings').insert({
+                user_id: getCurrentUserId(user),
                 email: user.email,
                 name: formData.name,
                 phone: formData.phone,
-                service: formData.service,
-                serviceDetail: formData.serviceDetail,
+                services: [formData.serviceDetail], // array for consistency
                 amount: formData.price,
                 date: formData.date,
                 time: formData.time,
                 address: formData.address,
                 message: formData.message
             });
+            if (error) throw error;
 
             saveCurrentUser({
                 name: formData.name,
@@ -875,7 +985,17 @@ if (inlineBookingForm) {
         const password = document.getElementById(`${serviceId}-loginPassword`).value;
 
         try {
-            const user = await postToApi('/api/login', { email, password });
+            const { data, error } = await window.supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+            if (error) throw error;
+            const user = {
+                id: data.user.id,
+                email: data.user.email,
+                name: data.user.user_metadata?.name || 'User',
+                phone: data.user.user_metadata?.phone || ''
+            };
             saveCurrentUser(user);
             showNotification("✅ Login successful! Welcome back.", "success");
             toggleAuthForm(serviceId);
@@ -894,7 +1014,23 @@ if (inlineBookingForm) {
         const password = document.getElementById(`${serviceId}-signUpPassword`).value;
 
         try {
-            const user = await postToApi('/api/signup', { name, email, phone, password });
+            const { data, error } = await window.supabaseClient.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        name,
+                        phone
+                    }
+                }
+            });
+            if (error) throw error;
+            const user = {
+                id: data.user.id,
+                email: data.user.email,
+                name: data.user.user_metadata?.name || name,
+                phone: data.user.user_metadata?.phone || phone
+            };
             saveCurrentUser(user);
             showNotification("✅ Account created successfully! Welcome to G care.", "success");
             toggleAuthForm(serviceId);
@@ -950,7 +1086,19 @@ function attachServiceBookingHandlers() {
             };
 
             try {
-                await postToApi('/api/bookings', formData);
+                const { data, error } = await window.supabaseClient.from('bookings').insert({
+                    user_id: getCurrentUserId(user),
+                    email: user.email,
+                    name: formData.name,
+                    phone: formData.phone,
+                    services: formData.services,
+                    amount: formData.amount,
+                    date: formData.date,
+                    time: formData.time,
+                    address: formData.address,
+                    message: formData.message
+                });
+                if (error) throw error;
 
                 saveCurrentUser({
                     name: formData.name,
@@ -1041,21 +1189,31 @@ document.addEventListener('submit', async (e) => {
     }
 
     try {
-        await postToApi('/api/bookings', formData);
-        showNotification('✅ Booking confirmed! Proceeding to payment...', 'success');
+        const { data, error } = await window.supabaseClient.from('bookings').insert({
+            user_id: getCurrentUserId(user),
+            email: formData.email,
+            name: formData.name,
+            phone: formData.phone,
+            services: formData.services || [formData.service],
+            amount: formData.amount,
+            date: formData.date,
+            time: formData.time,
+            address: formData.address,
+            message: formData.message
+        });
+        if (error) throw error;
+        showNotification('✅ Booking confirmed! Redirecting to booking confirmation...', 'success');
 
         const amount = Number(formData.amount) || 0;
         const bookingDescription = formData.service ? `${formData.service} booking` : 'Service booking';
-        setTimeout(() => {
-            initRazorpayPayment(amount, bookingDescription, {
-                service: formData.service,
-                services: formData.services,
-                date: formData.date,
-                time: formData.time,
-                address: formData.address,
-                message: formData.message
-            });
-        }, 1000);
+        redirectToBookedPage(amount, bookingDescription, {
+            service: formData.service,
+            services: formData.services,
+            date: formData.date,
+            time: formData.time,
+            address: formData.address,
+            message: formData.message
+        });
     } catch (error) {
         showNotification(`❌ ${error.message}`, 'error');
     }
@@ -1161,6 +1319,10 @@ function postToApi(path, data) {
 
 function getCurrentUser() {
     return JSON.parse(localStorage.getItem('smartCareUser') || 'null');
+}
+
+function getCurrentUserId(user) {
+    return user && user.id ? user.id : null;
 }
 
 function saveCurrentUser(user) {
@@ -1441,7 +1603,7 @@ function processRazorpayPayment(amount, description, bookingDetails = null) {
         name: 'G care',
         description: description,
         image: 'https://example.com/logo.png', // Replace with your logo URL
-        handler: function (response) {
+        handler: async function (response) {
             // Payment success callback
             showNotification("✅ Payment successful! Payment ID: " + response.razorpay_payment_id, "success");
             closePaymentModal();
@@ -1459,14 +1621,18 @@ function processRazorpayPayment(amount, description, bookingDetails = null) {
             localStorage.setItem('smartCarePayments', JSON.stringify(payments));
 
             // Record payment on backend as well
-            postToApi('/api/payments', {
+            const { data: paymentData, error: paymentError } = await window.supabaseClient.from('payments').insert({
+                user_id: getCurrentUserId(user),
                 email: user.email,
                 amount: amount,
                 description: description,
+                payment_method: 'online',
+                payment_status: 'completed',
                 razorpay_payment_id: response.razorpay_payment_id
-            }).catch(err => {
-                console.warn('Could not record payment on backend:', err.message);
             });
+            if (paymentError) {
+                console.warn('Could not record payment on backend:', paymentError.message);
+            }
 
             // Show success page
             showPaymentSuccessPage(response.razorpay_payment_id, amount, description, bookingDetails);
